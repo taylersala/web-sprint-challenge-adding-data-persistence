@@ -1,43 +1,40 @@
-// build your `Task` model here
 const db = require('../../data/dbConfig');
 
 function getTasks() {
   return db('tasks')
-    .join('projects', 'tasks.project_id', 'projects.project_id')
-    .select('tasks.*', 'projects.project_name', 'projects.project_description');
+    .select('tasks.task_id', 'tasks.task_description', 'tasks.task_notes', 'tasks.task_completed', 'projects.project_name', 'projects.project_description')
+    .join('projects', 'tasks.project_id', 'projects.project_id');
 }
+
 
 function getTaskById(task_id) {
   return db('tasks')
-    .where({ task_id })
-    .first()
+    .select('tasks.task_id', 'tasks.task_description', 'tasks.task_notes', 'tasks.task_completed', 'projects.project_name', 'projects.project_description')
     .join('projects', 'tasks.project_id', 'projects.project_id')
-    .select('tasks.*', 'projects.project_name', 'projects.project_description');
+    .where({ 'tasks.task_id': task_id })
+    .first();
 }
 
-function addTask(task) {
-  return db('tasks')
-    .insert(task)
-    .then(([task_id]) => getTaskById(task_id));
-}
+async function createTask(task) {
+  const { task_description, task_notes, task_completed = false, project_id } = task;
 
-function updateTask(task_id, changes) {
-  return db('tasks')
-    .where({ task_id })
-    .update(changes)
-    .then(count => (count > 0 ? getTaskById(task_id) : null));
-}
 
-function deleteTask(task_id) {
+  const [task_id] = await db('tasks').insert({
+    task_description,
+    task_notes,
+    task_completed: Boolean(task_completed),
+    project_id
+  });
+
   return db('tasks')
-    .where({ task_id })
-    .del();
+    .select('tasks.task_id', 'tasks.task_description', 'tasks.task_notes', 'tasks.task_completed', 'projects.project_name', 'projects.project_description')
+    .join('projects', 'tasks.project_id', 'projects.project_id')
+    .where({ 'tasks.task_id': task_id })
+    .first();
 }
 
 module.exports = {
   getTasks,
   getTaskById,
-  addTask,
-  updateTask,
-  deleteTask,
+  createTask,
 };

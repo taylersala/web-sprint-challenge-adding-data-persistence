@@ -1,4 +1,3 @@
-// build your `Resource` model here
 const db = require('../../data/dbConfig');
 
 function getResources() {
@@ -9,29 +8,20 @@ function getResourceById(resource_id) {
   return db('resources').where({ resource_id }).first();
 }
 
-function addResource(resource) {
-  return db('resources')
-    .insert(resource)
-    .then(([resource_id]) => getResourceById(resource_id));
-}
+async function createResource(resource) {
+  const { resource_name, resource_description } = resource;
 
-function updateResource(resource_id, changes) {
-  return db('resources')
-    .where({ resource_id })
-    .update(changes)
-    .then(count => (count > 0 ? getResourceById(resource_id) : null));
-}
+  const [resource_id] = await db('resources').insert({
+    resource_name,
+    resource_description,
+  });
 
-function deleteResource(resource_id) {
-  return db('resources')
-    .where({ resource_id })
-    .del();
+  return db('resources').where({ resource_id }).first();
 }
 
 module.exports = {
   getResources,
   getResourceById,
-  addResource,
-  updateResource,
-  deleteResource,
+  createResource,
 };
+
