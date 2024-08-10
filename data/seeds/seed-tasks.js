@@ -34,3 +34,44 @@ exports.seed = async function(knex) {
   ]);
 };
 
+
+
+
+/*  
+
+http get :9000/api/project
+(database is empty will return empty)
+
+http post :9000/api/project 
+(will return project name required)
+
+http post :9000/api/project project_name="testing"
+(will return new)
+
+http get :9000/api/project
+(now returns data)
+
+http get :9000/api/project/1 
+(now also returns correct data)
+
+
+^This should satisy projects tests
+
+
+http get :9000/api/resource
+(database is empty will return empty)
+
+http post :9000/api/resource 
+(will return resource name required)
+
+http post :9000/api/resource resource_name="testing"
+(will return new)
+
+http get :9000/api/resource
+(now returns data)
+
+http get :9000/api/resource/1 
+(now also returns correct data)
+
+This should satisy projects tests
+/*
