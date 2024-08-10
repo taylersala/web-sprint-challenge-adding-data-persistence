@@ -1,5 +1,6 @@
 // start your server here
-const server = require('./api/server');
+//require('dotenv').config()
+const server = require('./api/server.js');
 
 const port = process.env.port || 9000;
 
