@@ -10,25 +10,25 @@ exports.seed = async function(knex) {
     {
       task_description: 'Setup project structure',
       task_notes: 'Create initial folders and files',
-      task_completed: true,
+      task_completed: 0,
       project_id: 1
     },
     {
       task_description: 'Design database schema',
       task_notes: 'Define tables and relationships',
-      task_completed: false,
+      task_completed: 1,
       project_id: 1
     },
     {
       task_description: 'Implement API endpoints',
       task_notes: 'Create CRUD operations for projects',
-      task_completed: false,
+      task_completed: 0,
       project_id: 2
     },
     {
       task_description: 'Write unit tests',
       task_notes: 'Ensure code coverage for all functionalities',
-      task_completed: false,
+      task_completed: 0,
       project_id: 2
     }
   ]);
@@ -58,6 +58,8 @@ http get :9000/api/project/1
 ^This should satisy projects tests
 
 
+
+
 http get :9000/api/resource
 (database is empty will return empty)
 
@@ -73,5 +75,30 @@ http get :9000/api/resource
 http get :9000/api/resource/1 
 (now also returns correct data)
 
-This should satisy projects tests
+^This should satisfy resource tests
+
+
+
+
+http get :9000/api/task
+(database is empty will return empty)
+
+http post :9000/api/task 
+(will return task description required)
+
+http post :9000/api/task task_description="testing"
+(will return project ID is required)
+
+http post :9000/api/task task_description="testing" project_id=1
+(will return new)
+
+http get :9000/api/task
+(now returns data)
+
+http get :9000/api/task/1 
+(now also returns correct data)
+
+^This should satisfy task tests
+
+
 /*

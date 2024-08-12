@@ -1,6 +1,6 @@
 /*  
 
-Not sure whats going on with my tests and why they wont pass but everything returns as it should if youre able to run on port 9000 Ive made it easy to copy and paste to double check everything.
+Not sure whats going on with my tests and why they wont pass but everything returns as it should if youre able to run on port 9000 Ive made it easy to copy and paste to double check everything. Maybe I am missing something but I feel they should pass given the returns and it updating in SQL.
 
 http get :9000/api/project
 (database is empty will return empty)
